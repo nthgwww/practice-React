@@ -5,6 +5,7 @@ import { featchAllUser } from "../services/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
 import ModalEditUser from "./ModalEditUser";
+import ModalConfirm from "./ModalConfirm";
 import _ from 'lodash';
 
 const TableUsers = (props) => {
@@ -13,12 +14,17 @@ const TableUsers = (props) => {
   const [totalPages, setTotalPages] = useState(0);
 
   const [isShowModalAddNew, setIsShowModalAddNew] = useState(false);
-  const[ isShowModalEdit, setIsShowModalEdit] = useState(false)
-  const[dataUserEdit, setDataUserEdit] =useState({})
+
+  const [isShowModalDelete, setIsShowModalDelete] = useState(false); 
+  const [dataUserDelete, setDataUserDelete] = useState({});
+
+  const[ isShowModalEdit, setIsShowModalEdit] = useState(false);
+  const[dataUserEdit, setDataUserEdit] =useState({});
 
   const handleClose = () => {
     setIsShowModalAddNew(false);
     setIsShowModalEdit(false);
+    setIsShowModalDelete(false);
   };
 
   const handleUpdateTable = (user) => {
@@ -26,10 +32,11 @@ const TableUsers = (props) => {
   }
 
   const handleEditUserFromModal = (user) => {
-    let cloneListUser = _.cloneDeep(listUsers);
+    let cloneListUsers = _.cloneDeep(listUsers);
+    // cloneListUsers = cloneListUsers.filter(item => item.id !== user.id)
     let index = listUsers.findIndex(item => item.id === user.id);
-    cloneListUser[index].first_name = user.first_name;
-    setListUsers(cloneListUser);
+    cloneListUsers[index].first_name = user.first_name;
+    setListUsers(cloneListUsers);
   }
 
   useEffect(() => {
@@ -56,7 +63,18 @@ const TableUsers = (props) => {
     setDataUserEdit(user);
     setIsShowModalEdit(true);
   }
+ 
+  const handleDeleteUser = (user)=> {
+    setIsShowModalDelete(true);
+    setDataUserDelete(user)
+    console.log(user)
+  }
 
+  const handleDeleteUserFromModal = (user) => {
+    let cloneListUsers = _.cloneDeep(listUsers);
+    cloneListUsers = cloneListUsers.filter(item => item.id !== user.id)
+    setListUsers(cloneListUsers);
+  }
   return (
     <>
       <div className="my-3 add-new ">
@@ -92,7 +110,7 @@ const TableUsers = (props) => {
                   <td>{item.last_name}</td>
                   <td>
                     <button className="btn btn-warning mx-3" onClick={()=>handleEditUser(item)}>Edit</button>
-                    <button className="btn btn-danger">Delete</button>
+                    <button className="btn btn-danger" onClick={()=>handleDeleteUser(item)}>Delete</button>
                   </td>
                 </tr>
               );
@@ -119,6 +137,7 @@ const TableUsers = (props) => {
       />
       <ModalAddNew show={isShowModalAddNew} handleClose={handleClose} handleUpdateTable={handleUpdateTable}/>
       <ModalEditUser show={isShowModalEdit} dataUserEdit={dataUserEdit} handleClose={handleClose} handleEditUserFromModal={handleEditUserFromModal}/>
+      <ModalConfirm show = {isShowModalDelete } handleClose={handleClose} dataUserDelete={dataUserDelete} handleDeleteUserFromModal={handleDeleteUserFromModal}/>
     </>
   );
 };
