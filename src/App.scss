@@ -14,5 +14,73 @@ code {
 
 
 .app-container{
-   
+
+  .login-container{
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    margin: auto;
+
+    .title{
+      margin-top: 15px;
+      text-align: center;
+      font-size: 23px;
+      font-weight: 500;
+    }
+
+    .text{
+      font-weight: 400;
+      padding-bottom: 3px;
+    }
+    
+    input{
+      padding: 12px 7px;
+      outline: none;
+      // border: none;
+      background-color: #1618230f;
+      border: #1618230f;
+      margin-bottom: 7px;
+      border-radius: 3px;
+      width: 100%;
+
+      &:hover{
+        background-color: #dedede;
+        border: 1px solid #dedede;
+      }
+    }
+
+    .input-2{
+      position: relative;
+
+      i{
+        cursor: pointer;
+        position: absolute;
+        top: 17px;
+        right: 10px;
+      }
+    }
+
+    button{
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 3px;
+      outline: none;
+      border: none;
+
+      &.active{
+        background-color: #fe2c55;
+        color: white;
+      }
+    }
+
+    button[disabled=disabled], button:disabled {
+      // your css rules
+  }
+
+    .back{
+      text-align: center;
+      margin-top: 30px;
+      cursor: pointer;
+    }
+  }
 }
